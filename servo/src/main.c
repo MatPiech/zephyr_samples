@@ -83,6 +83,17 @@ void PWM_position(u8_t *dir, u32_t *pulse_width)
 	}
 }
 
+/**
+ *  Function to decoded pulse width to degrees. 
+ * 
+ * @param[out] degrees pointer to variable which contain angular position info.
+ * @param[in] pulse_width pointer to variable with pulse width value.
+ */
+void get_deegrees(u8_t *degrees, u32_t *pulse_width)
+{
+	*degrees =  (u8_t)((float)(*pulse_width - MINPULSEWIDTH) / (float)(MAXPULSEWIDTH - MINPULSEWIDTH) * 180.0);
+}
+
 void main(void)
 {
 	printk("Servo control program\n");
@@ -92,6 +103,7 @@ void main(void)
 	/* Set PWM starting positions as 0 degrees */
 	u32_t pulse_width = MINPULSEWIDTH;
 	u8_t dir = 0U;
+	u8_t degrees = 0U;
 
 	pwm_dev = device_get_binding(DT_ALIAS_PWM_0_LABEL);
 	if (!pwm_dev)
@@ -115,15 +127,21 @@ void main(void)
 			return;
 		}
 
+		get_deegrees(&degrees, &pulse_width);
+
 		printk("PWM pulse width: %d\n", pulse_width);
 
-		printk("Current direction: %d\n", dir);
+		printk("Degrees: %d\n", degrees);
+
+		//printk("Current direction: %d\n", dir);
 
 		PWM_control(&dir, &pulse_width);
 
 		//PWM_position(&dir, &pulse_width);
 
-		printk("Set direction %d\n\n", dir);
+		//printk("Set direction %d\n", dir);
+
+		printk("\n");
 
 		k_sleep(K_SECONDS(SLEEP_TIME_S));
 	}
