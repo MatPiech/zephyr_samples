@@ -4,7 +4,7 @@ This is an application which control a servo motor using PWM.
 
 ### Board
 
-[STM32 NUCLEO-L476RG](https://docs.zephyrproject.org/latest/boards/arm/nucleo_l476rg/doc/index.html)
+[ST Nucleo L476RG](https://docs.zephyrproject.org/latest/boards/arm/nucleo_l476rg/doc/index.html)
 
 ### Wiring
 
@@ -27,8 +27,7 @@ source zephyr-env.sh
 
 ### Building And Flashing Servo Application
 ```console
-cd zephyr_samples/servo/
+cd ~/zephyr_samples/servo/
 west build -p auto -b nucleo_l476rg .
 west flash
 ```
-
